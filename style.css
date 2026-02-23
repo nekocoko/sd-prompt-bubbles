@@ -1,0 +1,996 @@
+.prompt-bubble-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-height: 100px;
+    background: var(--background-fill-primary, #f9f9f9);
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+body.dark .prompt-bubble-container {
+    border-color: #374151;
+}
+
+.prompt-bubble {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background-color: #f0f9ff;
+    color: #1e293b;
+    cursor: grab;
+    user-select: none;
+    font-size: 0.9em;
+    border: 1px solid #bae6fd;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    /* Maintain size with borders */
+}
+
+.prompt-bubble:hover {
+    filter: brightness(0.95);
+    background-color: #e0f2fe;
+}
+
+.prompt-bubble.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.prompt-bubble-translation {
+    margin-left: 4px;
+    font-size: 0.8em;
+    color: #475569;
+    font-weight: 500;
+}
+
+.bubble-remove {
+    margin-left: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #94a3b8;
+}
+
+.bubble-remove:hover {
+    color: #ef4444;
+}
+
+.bubble-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex-grow: 1;
+    min-width: 100px;
+    padding: 4px;
+    font-family: inherit;
+    resize: none;
+    height: 30px;
+    overflow: hidden;
+}
+
+/* Dictionary Search Bar */
+.prompt-bubbles-search-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    align-items: center;
+    position: relative;
+    /* Ensure clear visual separation */
+}
+
+/* Common input style */
+.prompt-bubbles-search-input,
+.prompt-bubbles-autocomplete-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    font-size: 0.95em;
+}
+
+/* Buttons */
+.prompt-bubbles-translate-btn {
+    padding: 8px 12px;
+    background-color: var(--primary-500, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.prompt-bubbles-translate-btn:hover {
+    filter: brightness(0.9);
+}
+
+/* Autocomplete Lists (Shared) */
+.prompt-bubbles-autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 2000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.prompt-bubbles-autocomplete-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+}
+
+.prompt-bubbles-autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.prompt-bubbles-autocomplete-item:hover {
+    background-color: #e2e8f0;
+}
+
+.prompt-bubbles-autocomplete-item.native-item {
+    padding: 8px 12px;
+}
+
+.ac-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ac-tag-name {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.ac-count {
+    color: #9ca3af;
+    font-size: 0.85em;
+    margin-left: auto;
+    /* Push to right */
+}
+
+.ac-aliases {
+    color: #6b7280;
+    font-size: 0.8em;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Settings Modal */
+.prompt-bubbles-settings-modal {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+/* Preferences & Visualization */
+
+/* Dictionary Prefs */
+.prompt-bubble.preference-2 {
+    background-color: #dcfce7;
+    border-color: #86efac;
+    color: #14532d;
+}
+
+.prompt-bubble.preference-1 {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+}
+
+/* PREF -1 (New) */
+.prompt-bubble.preference-minus1 {
+    background-color: #e5e7eb;
+    /* Gray-200 */
+    border-color: #d1d5db;
+    /* Gray-300 */
+    color: #6b7280;
+    /* Gray-500 */
+}
+
+.prompt-bubble.preference-neg {
+    background-color: #f3f4f6;
+    border-color: #e5e7eb;
+    color: #4b5563;
+}
+
+/* Dynamic Prompt */
+.prompt-bubble.bubble-dynamic {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+/* Weight Visualization */
+.prompt-bubble[data-weight="true"] {
+    /* Base weight style - Text color reset to default/inherit */
+    color: inherit;
+}
+
+/* Strong (>= 1.0) - ORANGE */
+.prompt-bubble[data-weight-type="strong"] {
+    background-color: #fff7ed;
+    border-color: #fdba74 !important;
+}
+
+/* Weak (< 1.0) - GRAY */
+.prompt-bubble[data-weight-type="weak"] {
+    background-color: #f3f4f6;
+    border-color: #cbd5e1 !important;
+    /* Slate-300 */
+    color: #4b5563;
+    /* Gray-600 - slightly lighter text */
+}
+
+/* Weight Value Number */
+.bubble-weight-value {
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-left: 2px;
+    vertical-align: top;
+    /* Superscript effect */
+    margin-top: -2px;
+    display: inline-block;
+}
+
+.prompt-bubble[data-weight-type="strong"] .bubble-weight-value {
+    color: #c2410c;
+    /* Orange-700/Red-ish */
+}
+
+.prompt-bubble[data-weight-type="weak"] .bubble-weight-value {
+    color: #64748b;
+    /* Slate-500 */
+}
+
+/* LoRA Visualization (Restored) */
+.prompt-bubble.bubble-lora {
+    background-color: #f3e8ff;
+    /* Purple-100 */
+    border-color: #d8b4fe;
+    /* Purple-300 */
+    color: #7e22ce;
+    /* Purple-700 */
+}
+
+/* DUPLICATES (New) - Red Background */
+.prompt-bubble.duplicate {
+    background-color: #fee2e2 !important;
+    /* Red-100 */
+    border-color: #fecaca !important;
+    /* Red-200 */
+    color: #b91c1c !important;
+    /* Red-700 */
+}
+
+/* MATCHING (New) - Border Colors */
+/* Tag Match (A) */
+.prompt-bubble.match-tag {
+    outline: 2px solid #3b82f6;
+    /* Blue-500 */
+    outline-offset: -2px;
+    /* Inner outline */
+    border-color: #3b82f6 !important;
+}
+
+/* Loose Match (Yellow Dotted) */
+.prompt-bubble.match-loose {
+    outline: 2px dotted #eab308;
+    /* Yellow-500 */
+    outline-offset: -2px;
+    border-color: #eab308 !important;
+}
+
+/* Alias Match (B) - Purple Solid */
+.prompt-bubble.match-alias {
+    outline: 2px solid #a855f7;
+    /* Purple-500 */
+    outline-offset: -2px;
+    border-color: #a855f7 !important;
+}
+
+/* Dark mode overrides */
+body.dark .prompt-bubble-container {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+body.dark .prompt-bubble {
+    color: #e2e8f0;
+    background-color: #334155;
+    border-color: #475569;
+}
+
+body.dark .prompt-bubble-translation {
+    color: #94a3b8;
+}
+
+body.dark .prompt-bubbles-search-input,
+body.dark .prompt-bubbles-autocomplete-input {
+    background: #1f2937;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+body.dark .prompt-bubbles-autocomplete-list {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+body.dark .prompt-bubbles-autocomplete-item {
+    border-bottom-color: #374151;
+}
+
+body.dark .prompt-bubbles-autocomplete-item:hover {
+    background-color: #374151;
+}
+
+body.dark .ac-tag-name {
+    color: #60a5fa;
+}
+
+body.dark .ac-count {
+    color: #9ca3af;
+}
+
+body.dark .ac-aliases {
+    color: #9ca3af;
+}
+
+/* Settings Modal Dark */
+body.dark .prompt-bubbles-settings-modal {
+    background-color: #1f2937 !important;
+    border-color: #374151;
+    color: #e5e7eb;
+}
+
+body.dark .prompt-bubble.preference-2 {
+    background-color: #064e3b;
+    border-color: #059669;
+    color: #d1fae5;
+}
+
+body.dark .prompt-bubble.preference-1 {
+    background-color: #065f46;
+    border-color: #10b981;
+    color: #ecfdf5;
+}
+
+body.dark .prompt-bubble.preference-minus1 {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #9ca3af;
+}
+
+body.dark .prompt-bubble.preference-neg {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #9ca3af;
+}
+
+body.dark .prompt-bubble[data-weight-type="strong"] {
+    background-color: #431407;
+    border-color: #c2410c !important;
+}
+
+body.dark .prompt-bubble[data-weight-type="weak"] {
+    background-color: #1f2937;
+    /* Gray-800 */
+    border-color: #475569 !important;
+    /* Slate-600 */
+}
+
+body.dark .prompt-bubble[data-weight-type="strong"] .bubble-weight-value {
+    color: #fdba74;
+    /* Orange-300 */
+}
+
+body.dark .prompt-bubble[data-weight-type="weak"] .bubble-weight-value {
+    color: #94a3b8;
+    /* Slate-400 */
+}
+
+body.dark .prompt-bubble.bubble-lora {
+    background-color: #3b0764;
+    /* Purple-950 */
+    border-color: #7e22ce !important;
+    /* Purple-700 */
+    color: #e9d5ff;
+    /* Purple-200 */
+}
+
+body.dark .prompt-bubble.duplicate {
+    background-color: #7f1d1d !important;
+    /* Red-900 */
+    border-color: #991b1b !important;
+    color: #fecaca !important;
+}
+
+body.dark .prompt-bubble.match-tag {
+    outline-color: #60a5fa;
+    /* Blue-400 */
+    border-color: #60a5fa !important;
+}
+
+/* Dark mode for sub-bubbles */
+body.dark .prompt-bubble.bubble-dynamic {
+    border-color: #475569;
+}
+
+body.dark .sub-bubble {
+    background-color: #1e2937;
+    border-color: #374151;
+    color: #e2e8f0;
+}
+
+body.dark .sub-bubble:hover {
+    background-color: #374151;
+}
+
+body.dark .sub-bubble-separator {
+    color: #64748b;
+}
+
+/* Dynamic Prompt Sub-bubble Styles */
+.prompt-bubble.bubble-dynamic {
+    background-color: transparent !important;
+    /* Container is transparent or light gray */
+    border: 2px dashed #cbd5e1 !important;
+    /* Dashed border for container */
+    padding: 2px 6px;
+    gap: 4px;
+    /* Space between sub-bubbles */
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Allow wrapping */
+    max-width: 100%;
+    /* Prevent overflow */
+}
+
+.sub-bubble {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.9em;
+    color: #334155;
+    white-space: nowrap;
+    font-weight: bold;
+    cursor: grab;
+    /* Sub-bubbles are draggable now? Ideally main bubble is */
+}
+
+.sub-bubble:hover {
+    background-color: #f1f5f9;
+}
+
+.sub-bubble-separator {
+    color: #94a3b8;
+    margin: 0 1px;
+    font-weight: bold;
+    user-select: none;
+    font-size: 1.1em;
+}
+
+.bubble-text {
+    color: inherit !important;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.prompt-bubble-translation {
+    margin-left: 4px;
+    font-size: 0.85em;
+    color: #475569;
+    font-weight: 500;
+}
+
+/* Edit Modal UI Refinement */
+.prompt-bubbles-edit-modal {
+    box-sizing: border-box !important;
+}
+
+.prompt-bubbles-edit-input {
+    box-sizing: border-box !important;
+    max-height: 400px;
+    overflow-y: auto !important;
+    transition: height 0.1s ease-out;
+    background-color: var(--input-background-fill, #fff) !important;
+    color: var(--body-text-color, #333) !important;
+}
+
+/* User Manual Styles */
+.prompt-bubbles-settings-modal {
+    width: 350px !important;
+    /* Slightly wider to accommodate manual */
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.prompt-bubbles-manual-btn {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background 0.2s;
+}
+
+.prompt-bubbles-manual-btn:hover {
+    background-color: #2563eb !important;
+}
+
+.prompt-bubbles-manual-content {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: var(--secondary-background-fill, #f8fafc);
+    border-radius: 6px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.manual-section {
+    margin-bottom: 15px;
+}
+
+.manual-section h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.95em;
+    color: var(--body-text-color, #1e293b);
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px;
+}
+
+.manual-section ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 0.85em;
+    color: var(--body-text-color, #475569);
+    list-style-type: disc;
+}
+
+.manual-section li {
+    margin-bottom: 4px;
+}
+
+/* Dark Mode Manual */
+.dark-mode .prompt-bubbles-manual-content {
+    background-color: #1e293b;
+}
+
+.dark-mode .manual-section h4 {
+    color: #f1f5f9;
+    border-bottom-color: #334155;
+}
+
+.dark-mode .manual-section ul {
+    color: #cbd5e1;
+}
+
+.prompt-bubbles-edit-input:focus {
+    outline: none !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Dictionary Editor Styles */
+.prompt-bubbles-dict-editor-modal {
+    background-color: var(--background-fill-primary, #fff);
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dict-editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.dict-editor-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: var(--body-text-color, #1e293b);
+}
+
+.dict-editor-close {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    color: #94a3b8;
+}
+
+.dict-editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dict-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+    /* For autocomplete list */
+}
+
+.dict-input-group label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--body-text-color, #475569);
+}
+
+.dict-editor-input {
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 0.95em;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--input-background-fill, #fff);
+    color: var(--body-text-color, #333);
+}
+
+.dict-editor-input:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.dict-attr-row {
+    display: flex;
+    align-items: flex-end;
+    /* Align inputs */
+}
+
+.dict-action-row {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.dict-help-box {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: var(--secondary-background-fill, #f8fafc);
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: var(--body-text-color, #64748b);
+    line-height: 1.5;
+}
+
+/* Dark Mode Overrides for Dict Editor */
+.dark-mode .prompt-bubbles-dict-editor-modal {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .dict-editor-header {
+    border-bottom-color: #334155;
+}
+
+.dark-mode .dict-editor-header h3 {
+    color: #f8fafc;
+}
+
+.dark-mode .dict-editor-close {
+    color: #cbd5e1;
+}
+
+.dark-mode .dict-input-group label {
+    color: #cbd5e1;
+}
+
+.dark-mode .dict-editor-input {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+.dark-mode .dict-editor-input:focus {
+    border-color: #a78bfa;
+}
+
+/* Autocomplete List Override for Dict Editor */
+.dict-input-group .prompt-bubbles-list {
+    background-color: var(--background-fill-primary, #fff) !important;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10001 !important;
+    /* Higher than modal overlay/content */
+}
+
+.dict-input-group .prompt-bubbles-list li {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.dict-input-group .prompt-bubbles-list li:hover {
+    background-color: var(--secondary-background-fill, #f8fafc);
+}
+
+.dark-mode .dict-input-group .prompt-bubbles-list {
+    background-color: #1e293b !important;
+    border-color: #334155;
+}
+
+.dark-mode .dict-input-group .prompt-bubbles-list li {
+    border-bottom-color: #334155;
+    color: #f8fafc;
+}
+
+.dark-mode .dict-input-group .prompt-bubbles-list li:hover {
+    background-color: #0f172a;
+}
+
+/* Dictionary Item Indicator */
+.prompt-bubble.dictionary-item::after {
+    content: "*";
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #eab308;
+    /* Yellow/Orange */
+    pointer-events: none;
+    line-height: 1;
+}
+
+/* Ensure relative positioning for bubbles */
+.prompt-bubble {
+    position: relative;
+}
+
+.prompt-bubble-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.prompt-bubble-controls .left-group {
+    display: flex;
+    gap: 8px;
+}
+
+.prompt-bubble-controls button {
+    background-color: #64748b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.prompt-bubble-controls button:hover {
+    background-color: #475569;
+}
+
+.prompt-bubble-controls button.danger {
+    background-color: #ef4444;
+}
+
+.prompt-bubble-controls button.danger:hover {
+    background-color: #dc2626;
+}
+
+/* Dark Mode Overrides */
+.dark-mode .prompt-bubble-controls {
+    border-top-color: #475569;
+}
+
+.dark-mode .prompt-bubble-controls button {
+    background-color: #475569;
+}
+
+.dark-mode .prompt-bubble-controls button:hover {
+    background-color: #334155;
+}
+
+.dark-mode .prompt-bubble-controls button.danger {
+    background-color: #991b1b;
+}
+
+.dark-mode .prompt-bubble-controls button.danger:hover {
+    background-color: #7f1d1d;
+}
+
+/* Group Bubble Styles */
+.prompt-bubble.bubble-group {
+    background-color: rgba(0, 0, 0, 0.02);
+    border: 1px solid #94a3b8 !important;
+    /* Slate-400 */
+    border-radius: 6px;
+    padding: 2px 6px;
+    gap: 4px;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
+    /* Ensure padding doesn't cause overflow */
+    white-space: normal;
+    /* Ensure text wraps */
+}
+
+.dark-mode .prompt-bubble.bubble-group {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #64748b !important;
+}
+
+/* Ensure sub-bubbles inside groups look good */
+.prompt-bubble.bubble-group .sub-bubble,
+.prompt-bubble.bubble-dynamic .sub-bubble {
+    font-size: 1.0em;
+    padding: 1px 4px;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+/* Dynamic Wrapper inside mixed prompts */
+.dynamic-wrapper {
+    border: 1px dashed #888;
+    border-radius: 4px;
+    padding: 0 2px;
+    margin: 0 2px;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Key fix for overflow */
+    max-width: 100%;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+/* Multi-Select Styles */
+.prompt-bubble.selected {
+    background-color: #bfdbfe !important;
+    /* Blue-200 */
+    border-color: #2563eb !important;
+    /* Blue-600 */
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+body.dark .prompt-bubble.selected {
+    background-color: #1e3a8a !important;
+    /* Blue-900 */
+    border-color: #60a5fa !important;
+    /* Blue-400 */
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
+
+/* Sub-bubble interactivity */
+.sub-bubble {
+    cursor: grab;
+    transition: all 0.2s;
+}
+
+.sub-bubble:active {
+    cursor: grabbing;
+}
+
+.sub-bubble.selected {
+    background-color: #bfdbfe !important;
+    border-color: #2563eb !important;
+}
+
+body.dark .sub-bubble.selected {
+    background-color: #1e3a8a !important;
+    border-color: #60a5fa !important;
+}
+
+.sub-bubble.dragging {
+    opacity: 0.5;
+    background-color: #e2e8f0;
+}
+
+/* Sub-bubble Coloring (v5.9.5) - High Specificity */
+.prompt-bubble .sub-bubble.preference-1 {
+    background-color: #f6fffa !important;
+    border: 1px solid #d1fae5 !important;
+    color: #065f46 !important;
+    border-radius: 4px;
+    padding: 0 2px !important;
+}
+
+.prompt-bubble .sub-bubble.preference-2 {
+    background-color: #f0fdf4 !important;
+    border: 1px solid #bbf7d0 !important;
+    color: #166534 !important;
+    border-radius: 4px;
+    padding: 0 2px !important;
+}
+
+.prompt-bubble .sub-bubble.preference-minus1 {
+    background-color: #f9fafb !important;
+    border: 1px solid #e5e7eb !important;
+    color: #9ca3af !important;
+    border-radius: 4px;
+    padding: 0 2px !important;
+}
+
+.prompt-bubble .sub-bubble.bubble-lora {
+    background-color: #faf5ff !important;
+    border: 1px solid #f3e8ff !important;
+    color: #6b21a8 !important;
+    border-radius: 4px;
+    padding: 0 2px !important;
+}
+
+.prompt-bubble .sub-bubble[data-weight="true"] {
+    background-color: #fff7ed !important;
+    border: 1px solid #ffedd5 !important;
+    color: #9a3412 !important;
+    border-radius: 4px;
+    padding: 0 2px !important;
+}
+
+/* Dark mode adjustments - Strong selectors */
+body.dark .prompt-bubble .sub-bubble.preference-1 {
+    background-color: #064e3b !important;
+    border-color: #065f46 !important;
+    color: #d1fae5 !important;
+}
+
+body.dark .prompt-bubble .sub-bubble.preference-2 {
+    background-color: #14532d !important;
+    border-color: #166534 !important;
+    color: #bbf7d0 !important;
+}
+
+body.dark .prompt-bubble .sub-bubble.bubble-lora {
+    background-color: #581c87 !important;
+    border-color: #6b21a8 !important;
+    color: #e9d5ff !important;
+}
+
+body.dark .prompt-bubble .sub-bubble[data-weight="true"] {
+    background-color: #7c2d12 !important;
+    border-color: #9a3412 !important;
+    color: #ffedd5 !important;
+}
