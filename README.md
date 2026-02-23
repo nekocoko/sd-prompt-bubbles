@@ -1,5 +1,6 @@
 [한국어 문서 (Korean)](#korean-documentation) | [English Documentation](#english-documentation)
 
+<a name="korean-documentation"></a>
 ## 🇰🇷 Korean Documentation
 
 # Prompt Bubbles for Stable Diffusion WebUI
@@ -125,6 +126,7 @@ CSV 열 구조
 태그에 대한 보충 설명이 있다면 이 열에 기입합니다. 검색 결과 리스트에서 작은 글씨로 표시됩니다.
 
 ---
+<a name="english-documentation"></a>
 ## 🇺🇸 English Documentation
 
 # Prompt Bubbles for Stable Diffusion WebUI
