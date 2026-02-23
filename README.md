@@ -128,6 +128,9 @@ CSV 열 구조
 - **다섯 번째 열** (row[4]): 추가 정보 (Extra info)<br>
 태그에 대한 보충 설명이 있다면 이 열에 기입합니다. 검색 결과 리스트에서 작은 글씨로 표시됩니다.
 
+## License
+MIT License
+
 ---
 <a name="english-documentation"></a>
 ## 🇺🇸 English Documentation
@@ -257,4 +260,5 @@ Used for alternative names or translations. Tags can also be found using keyword
 - **Column 5** (row[4]): Extra Info<br>
 Optional additional description for the tag. Displayed as small text in the search result list.
 
-
+## License
+MIT License
