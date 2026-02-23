@@ -63,7 +63,7 @@ Stable Diffusion WebUI에서 사용하는 텍스트 기반 프롬프트를 시�
 **비표준 태그** : CSV 파일로 등록한 태그에서 표준 태그가 있는 비표준 태그 버블은 보라색 테두리가 표시됩니다. (예. `male`(비표준) > `1boy`(표준))
 
 <img width="208" height="34" alt="스크린샷 2026-02-23 152716" src="https://github.com/user-attachments/assets/94f3b921-1607-4e56-83f1-57a38a00d572" /><br>
-**언더바(_) 미적용 태그** : CSV 파일로 등록한 태그에서 언더바(_) 대신 스페이스바가 적용된 태그 버블은 노란색 테두리가 표시됩니다.
+**언더바(_) 미적용 태그** : 수기로 입력한 태그중, CSV 파일로 등록한 태그에서 언더바(_) 대신 스페이스바가 적용된 태그 버블은 노란색 테두리가 표시됩니다.  
 
 <img width="200" height="40" alt="스크린샷 2026-02-23 152416" src="https://github.com/user-attachments/assets/ea14c5ef-834c-453d-ae17-f8ff4def4ac0" /><br>
 **다이나믹 프롬프트 태그** : 다이나믹 프롬프트 태그는 실선 테두리 버블로 묶입니다. 내부 개별 태그는 스타일 영향을 받지 않습니다.
@@ -192,7 +192,7 @@ It provides useful prompt management features such as drag-and-drop sorting, sep
 **Non-standard Tags**: Bubbles for non-standard tags that have corresponding standard tags in the CSV file are displayed with a purple border. (e.g., `male` (non-standard) > `1boy` (standard))
 
 <img width="208" height="34" alt="Screenshot 2026-02-23 152716" src="https://github.com/user-attachments/assets/94f3b921-1607-4e56-83f1-57a38a00d572" /><br>
-**Tags Without Underscores (_)**: Bubbles for tags where spaces are used instead of underscores (_) are shown with a yellow border.
+**Tags without underscores (_)**: For manually entered tags, if a tag registered in the CSV file uses spaces instead of underscores (_), the corresponding bubble will be displayed with a yellow border.
 
 <img width="200" height="40" alt="Screenshot 2026-02-23 152416" src="https://github.com/user-attachments/assets/ea14c5ef-834c-453d-ae17-f8ff4def4ac0" /><br>
 **Dynamic Prompt Tags**: Dynamic prompt groups are wrapped in solid-line bordered bubbles. Inner tags are not affected by styling.
