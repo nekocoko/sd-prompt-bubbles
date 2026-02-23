@@ -98,6 +98,7 @@ Stable Diffusion WebUI에서 사용하는 텍스트 기반 프롬프트를 시�
 - 자주 사용하는 태그를 번역과 함께 사전에 저장하고 검색할 수 있습니다.
 - 저장한 태그는 `extensions\sd-prompt-bubbles\prompt_bubbles_dict.json`에 저장됩니다.
 - 여러 개의 태그를 한 번에 저장할 수 있습니다. 저장한 태그를 프롬프트에 불러올 경우 묶음 태그 버블로 표시됩니다.
+- `Pref`는 사전에 태그를 저장할 때 지정할 수 있는 선호도입니다. 버블 색상으로 선호도를 구분해 주는 것 외에는 별도의 기능은 없습니다.
 
 ### 태그 검색 기능
 기존 태그 자동 완성 기능과 호환되지 않기 때문에 별도로 태그 검색 기능을 지원합니다.<br>
@@ -226,6 +227,7 @@ They use the '`!!a/b/c/d!!`' format, but are automatically converted to '`a,b,c,
 - Save frequently used tags with translations and search them easily.
 - Saved tags are stored in `extensions\sd-prompt-bubbles\prompt_bubbles_dict.json`.
 - You can save multiple tags at once. When inserted into a prompt, they appear as grouped tag bubbles.
+- `Pref` is a preference level that can be set when saving tags to the personal dictionary. It has no functional effect other than visually distinguishing tags by bubble color.
 
 ### Tag Search
 Since this feature is not compatible with the default tag autocomplete, a separate tag search feature is provided.<br>
