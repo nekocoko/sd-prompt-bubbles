@@ -7,7 +7,8 @@
 > **⚠️** <br>
 > 이 프로젝트는 개인적으로 사용하던 도구를 정리해 공개한 것입니다.  
 > 코드의 대부분은 AI를 사용해 제작하였습니다.  
-> 테스트는 `webui_forge_cu124_torch24`를 기반으로 한 제한적인 환경에서만 진행되었으며, 모든 환경에서의 정상 동작을 보장하지 않습니다.  
+> 테스트는 `webui_forge_cu124_torch24`를 기반으로 한 제한적인 환경에서만 진행되었으며, 모든 환경에서의 정상 동작을 보장하지 않습니다.
+> 유지보수 및 지원은 보장하지 않습니다.
 > 사용에 따른 문제나 손해에 대해 책임지지 않습니다.  
 > 필요에 따라 자유롭게 포크·수정하여 사용하셔도 됩니다.
 
@@ -133,7 +134,8 @@ CSV 열 구조
 > **⚠️** <br>
 > This project is a cleaned-up version of a tool originally made for personal use.  
 > Most of the code was generated with the help of AI.  
-> Testing was conducted only in a limited environment based on `webui_forge_cu124_torch24`, and proper operation in all environments is not guaranteed.  
+> Testing was conducted only in a limited environment based on `webui_forge_cu124_torch24`, and proper operation in all environments is not guaranteed.
+> Ongoing maintenance and support are not guaranteed.
 > The author is not responsible for any issues or damages resulting from the use of this tool.  
 > You are free to fork and modify this project as needed.
 
